@@ -1,7 +1,7 @@
 # pit(1)
 
-**personal git** is a simple implementation of git in python.
+**personal git** is a simple implementation of **Git** in **Python**.
 
 ## Why?
 
-for understanding git
+Learn Git by implementing it.

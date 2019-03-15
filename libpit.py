@@ -11,6 +11,33 @@ argparser = argparse.ArgumentParser(description="Personal Git")
 argsubparsers = argparser.add_subparsers(title="Commands", dest="command")
 argsubparsers.required = True
 
+#
+# 'init' command
+#
+argsp = argsubparsers.add_parser("init", help="Initialize a new, empty repository.")
+argsp.add_argument("path", metavar="directory", nargs="?", default=".", help="Where to create the repository.")
+
+def cmd_init(args):
+    repo = repo_create(args.path)
+    print(repo.worktree)
+    print(repo.gitdir)
+    print(repo.config)
+
+def repo_create(path):
+    """Create a new repository at path."""
+    repo = GitRepository(path, True)
+    return repo
+
+class GitRepository(object):
+    """A git repository"""
+    worktree = None
+    gitdir = None
+    config = None
+    def __init__(self, path, force=False):
+        self.worktree = path
+        self.gitdir = os.path.join(path, ".git")
+        self.config = configparser.ConfigParser()
+
 def main(argv=sys.argv[1:]):
     args = argparser.parse_args(argv)
 
@@ -42,4 +69,5 @@ def main(argv=sys.argv[1:]):
         cmd_show_ref(args)
     elif args.command == "tag":
         cmd_tag(args)
+
 
